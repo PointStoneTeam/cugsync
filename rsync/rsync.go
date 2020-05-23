@@ -3,10 +3,6 @@ package rsync
 import (
 	"bytes"
 	"os/exec"
-	"strings"
-	"time"
-
-	log "github.com/sirupsen/logrus"
 )
 
 const RSYNC_CMD = "rsync"
@@ -17,20 +13,21 @@ type Config struct {
 	LocalDir  string
 	RemoteDir string
 	Args      []string
-	Timeout   time.Duration
 }
 
 // TimeoutCallback represents timeout call back function for rsync command
 type TimeoutCallback func(*Config)
 
+// ErrorCallback represents callback function when
+type ErrorCallback func(*Config, error)
+
 // InitConfig init and return a rsync task config
-func InitConfig(localDir, remoteDir string, args []string, timeout time.Duration) *Config {
+func InitConfig(localDir, remoteDir string, args []string) *Config {
 	return &Config{
 		Command:   RSYNC_CMD,
 		LocalDir:  localDir,
 		RemoteDir: remoteDir,
 		Args:      args,
-		Timeout:   timeout,
 	}
 }
 
@@ -47,27 +44,10 @@ func CheckRsync() (hasRsync bool, info string) {
 }
 
 // ExecCommand start calling rsync command with specified config
-// it will call `callback` and exit function if timeout
-func ExecCommand(conf *Config, callback TimeoutCallback) {
-	ch := make(chan bool)
-
-	go func() {
-		rsyncCmd := exec.Command(conf.Command, conf.Args...)
-		rsyncCmd.Run()
-		ch <- true
-	}()
-
-	select {
-	case <-ch:
-
-	case <-time.After(conf.Timeout):
-		go callback(conf)
+func ExecCommand(conf *Config) error {
+	rsyncCmd := exec.Command(conf.Command, conf.Args...)
+	if err := rsyncCmd.Run(); err != nil {
+		return err
 	}
-}
-
-// DefaultTimeoutCallback print info about task in default
-func DefaultTimeoutCallback(conf *Config) {
-	log.Errorf(`Sync task cost %s timeout. Full command %s %s.
-	\nLocal dir: %s\nRemote Dir: %s\n`, conf.Timeout.String(),
-		conf.Command, strings.Join(conf.Args, " "), conf.LocalDir, conf.RemoteDir)
+	return nil
 }
