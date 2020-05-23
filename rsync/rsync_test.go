@@ -22,8 +22,8 @@ func TestExecCommandTimeout(t *testing.T) {
 	}
 	conf := &Config{
 		Command: "sleep",
-		Args:    []string{"1"},
-		Timeout: 2 * time.Second,
+		Args:    []string{"2"},
+		Timeout: 1 * time.Second,
 	}
 	ExecCommand(conf, goodTimeout)
 	conf.Timeout = 3
