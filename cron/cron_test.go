@@ -1,7 +1,7 @@
 package cron
 
 import (
-	"fmt"
+	log "github.com/sirupsen/logrus"
 	"testing"
 	"time"
 )
@@ -12,7 +12,7 @@ type TestJob struct {
 func (this TestJob) Run() {
 	i := 0
 	for {
-		fmt.Println(i)
+		log.Info(i)
 		i++
 		time.Sleep(time.Second)
 	}
@@ -24,4 +24,8 @@ func TestStartJob(t *testing.T) {
 	go StartJob(spec, TestJob{}, ch)
 	time.Sleep(time.Minute * 3)
 	StopJob(ch)
+}
+
+func TestStartJob2(t *testing.T) {
+
 }
