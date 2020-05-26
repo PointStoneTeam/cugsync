@@ -98,16 +98,15 @@ func GetTaskStatus(key string) TaskStatus {
 }
 
 // GetHistory returns all sync history about specified task
-func GetHistory(taskName string) []*History {
+func GetHistory(taskName string) ([]*History, error) {
 	db, err := bolt.Open("sync.db", 0600, nil)
 	if err != nil {
-		log.Error(err)
-		return nil
+		return nil, err
 	}
 	defer db.Close()
 
 	ret := make([]*History, 0)
-	db.View(func(tx *bolt.Tx) error {
+	err = db.View(func(tx *bolt.Tx) error {
 		c := tx.Bucket([]byte(historyBucket)).Cursor()
 		if c == nil {
 			return fmt.Errorf("bucket is not init")
@@ -122,7 +121,10 @@ func GetHistory(taskName string) []*History {
 		}
 		return nil
 	})
-	return ret
+	if err != nil {
+		return nil, err
+	}
+	return ret, nil
 }
 
 func reocrdHistory(record *History) {

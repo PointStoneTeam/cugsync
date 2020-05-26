@@ -25,7 +25,10 @@ func TestModifyTaskStatus(t *testing.T) {
 		t.Error(err)
 	}
 	// test if history reocrded
-	history := GetHistory("ubuntu")
+	history, err := GetHistory("ubuntu")
+	if err != nil {
+		t.Error(err)
+	}
 	if len(history) == 0 {
 		t.Errorf("bad history record")
 	}
