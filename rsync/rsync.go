@@ -2,6 +2,8 @@ package rsync
 
 import (
 	"bytes"
+	"github.com/PointStoneTeam/cugsync/pkg/file"
+	"os"
 	"os/exec"
 )
 
@@ -41,6 +43,11 @@ func CheckRsync() (hasRsync bool, info string) {
 
 // ExecCommand start calling rsync command with specified config
 func ExecCommand(conf *Config) error {
+	// checkPath exist,if no folder then create
+	if _, err := file.PathExists(conf.LocalDir); err != nil {
+		os.MkdirAll(conf.LocalDir, 666)
+	}
+
 	args := append(conf.Args, "rsync://"+conf.Upstream+conf.RemoteDir, "./")
 	rsyncCmd := exec.Command(conf.Command, args...)
 	rsyncCmd.Dir = conf.LocalDir

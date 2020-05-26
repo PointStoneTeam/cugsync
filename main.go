@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/PointStoneTeam/cugsync/conf"
 	"github.com/PointStoneTeam/cugsync/routers"
+	"github.com/PointStoneTeam/cugsync/rsync"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"time"
@@ -22,6 +23,10 @@ func main() {
 	// 加载用户配置
 	if err := conf.LoadUserConfig(*confPath); err != nil {
 		log.Fatal(err)
+	}
+	// 判断 rsync 是否安装
+	if hasRsync, info := rsync.CheckRsync(); !hasRsync {
+		log.Fatal(info)
 	}
 
 	// 处理端口绑定

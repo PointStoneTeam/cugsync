@@ -11,8 +11,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type TaskStatus int
-
 // History is the sync history of a task
 type History struct {
 	Name      string    `json:"name"`
@@ -21,16 +19,19 @@ type History struct {
 	Info      string    `json:"info"`
 }
 
-// task status enum
+// sync task status enum
+type SyncTaskStatus int
+
 const (
-	UNKNOWN TaskStatus = -1
-	SLEEP   TaskStatus = 0
-	STARTED TaskStatus = 1
-	SUCC    TaskStatus = 2
-	FAILED  TaskStatus = 3
+	UNKNOWN SyncTaskStatus = -1
+	SLEEP   SyncTaskStatus = 0
+	STARTED SyncTaskStatus = 1
+	SUCC    SyncTaskStatus = 2
+	FAILED  SyncTaskStatus = 3
 )
 
 const (
+	jobPrefix         = "job:"
 	statusPrefix      = "status:"
 	timePrefix        = "time:"
 	syncHistoryPrefix = "sync_history:"
@@ -79,7 +80,7 @@ func ExitTask(key string, err error) error {
 		cache.Set(statusPrefix+key, SUCC, gocache.NoExpiration)
 	}
 	startTime, _ := cache.Get(timePrefix + key)
-	reocrdHistory(&History{
+	recordHistory(&History{
 		Name:      key,
 		StartTime: startTime.(time.Time),
 		EndTime:   time.Now(),
@@ -89,12 +90,12 @@ func ExitTask(key string, err error) error {
 }
 
 // GetTaskStatus get task status from cache
-func GetTaskStatus(key string) TaskStatus {
+func GetTaskStatus(key string) SyncTaskStatus {
 	ret, ok := cache.Get(statusPrefix + key)
 	if !ok {
 		return UNKNOWN
 	}
-	return ret.(TaskStatus)
+	return ret.(SyncTaskStatus)
 }
 
 // GetHistory returns all sync history about specified task
@@ -127,7 +128,7 @@ func GetHistory(taskName string) ([]*History, error) {
 	return ret, nil
 }
 
-func reocrdHistory(record *History) {
+func recordHistory(record *History) {
 	db, err := bolt.Open("sync.db", 0600, nil)
 	if err != nil {
 		log.Error(err)

@@ -1,6 +1,7 @@
 package file
 
 import (
+	"fmt"
 	log "github.com/sirupsen/logrus"
 	"io"
 	"io/ioutil"
@@ -68,4 +69,15 @@ func DownloadFile(url, filename string) error {
 func IsExistFile(p string) bool {
 	_, err := os.Lstat(p)
 	return !os.IsNotExist(err)
+}
+
+// 判断文件夹是否存在
+func PathExists(p string) (bool, error) {
+	a, err := os.Stat(p)
+	if err != nil {
+		return false, err
+	} else if !a.IsDir() {
+		return false, fmt.Errorf("%s is a file", p)
+	}
+	return true, nil
 }

@@ -1,36 +1,57 @@
 package manager
 
-import "testing"
+import (
+	"github.com/PointStoneTeam/cugsync/rsync"
+	"os"
+	"testing"
+	"time"
+)
 
-func TestInitTask(t *testing.T) {
-	keys := []string{"ubuntu", "centos", "archlinux", "debian"}
-	InitTaskKeys(keys)
-	for _, v := range keys {
-		if s := GetTaskStatus(v); s != SLEEP {
-			t.Errorf("init tasks error, get status %v", s)
-		}
+func TestCreateJob(t *testing.T) {
+	CreateJob("testJob", "* * * * *", rsync.InitConfig("./test_rsync",
+		"/eclipse/swtchart/releases/0.12.0/release/",
+		"mirrors.tuna.tsinghua.edu.cn",
+		[]string{"-avz", "--delete"}))
+	defer os.Remove("sync.db")
+
+	var (
+		j   *Job
+		err error
+	)
+
+	if j, err = GetJob("testJob"); err != nil {
+		t.Error(err)
 	}
+	t.Logf("job: %v", j)
 }
 
-func TestModifyTaskStatus(t *testing.T) {
-	keys := []string{"ubuntu", "centos", "archlinux", "debian"}
-	InitTaskKeys(keys)
-	if err := StartTask("ubuntu"); err != nil {
+func TestStartJob(t *testing.T) {
+	jobName := "testJob"
+	CreateJob(jobName, "*/1 * * * *", rsync.InitConfig("./test_rsync",
+		"/eclipse/swtchart/releases/0.12.0/release/",
+		"mirrors.tuna.tsinghua.edu.cn",
+		[]string{"-avz", "--delete"}))
+	defer os.Remove("sync.db")
+
+	var (
+		j   *Job
+		err error
+	)
+
+	if j, err = GetJob("testJob"); err != nil {
 		t.Error(err)
 	}
-	if s := GetTaskStatus("ubuntu"); s != STARTED {
-		t.Errorf("task ubuntu started but get status %v", s)
-	}
-	if err := ExitTask("ubuntu", nil); err != nil {
-		t.Error(err)
-	}
-	// test if history reocrded
-	history, err := GetHistory("ubuntu")
+	t.Logf("job: %v", j)
+
+	StartJob(jobName)
+	time.Sleep( time.Minute)
+	historyList, err := GetHistory("testJob")
 	if err != nil {
-		t.Error(err)
+		t.Errorf("GetHistory error: %s", err.Error())
 	}
-	if len(history) == 0 {
-		t.Errorf("bad history record")
+	for index, history := range historyList {
+		t.Logf("index %d : %v", index, history)
 	}
-	t.Logf("task %s started at %v ended at %v, info %s", history[0].Name, history[0].StartTime, history[0].EndTime, history[0].Info)
+	StopJob(jobName)
+	t.Logf("job.Name : %s, job.Status: %d", j.Name, j.Status)
 }
