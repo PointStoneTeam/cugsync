@@ -2,7 +2,6 @@ package cron
 
 import (
 	"github.com/robfig/cron/v3"
-
 	log "github.com/sirupsen/logrus"
 )
 
@@ -13,7 +12,11 @@ import (
 - flag，管道用于关闭任务
 */
 func StartJob(spec string, job cron.Job, shut chan int) {
-	logger := &Logger{}
+	logger := &CLog{clog: log.New()}
+	logger.clog.SetFormatter(&log.TextFormatter{
+		FullTimestamp:   true,
+		TimestampFormat: "2006-01-02 15:04:05",
+	})
 	c := cron.New(cron.WithChain(cron.SkipIfStillRunning(logger)))
 
 	c.AddJob(spec, job)
@@ -33,17 +36,18 @@ func StopJob(shut chan int) {
 	shut <- 0
 }
 
-type Logger struct {
+type CLog struct {
+	clog *log.Logger
 }
 
-func (l *Logger) Info(msg string, keysAndValues ...interface{}) {
-	log.WithFields(log.Fields{
+func (l *CLog) Info(msg string, keysAndValues ...interface{}) {
+	l.clog.WithFields(log.Fields{
 		"data": keysAndValues,
 	}).Info(msg)
 }
 
-func (l *Logger) Error(err error, msg string, keysAndValues ...interface{}) {
-	log.WithFields(log.Fields{
+func (l *CLog) Error(err error, msg string, keysAndValues ...interface{}) {
+	l.clog.WithFields(log.Fields{
 		"msg":  msg,
 		"data": keysAndValues,
 	}).Warn(msg)

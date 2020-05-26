@@ -45,7 +45,7 @@ func CheckRsync() (hasRsync bool, info string) {
 func ExecCommand(conf *Config) error {
 	// checkPath exist,if no folder then create
 	if _, err := file.PathExists(conf.LocalDir); err != nil {
-		os.MkdirAll(conf.LocalDir, 666)
+		os.Mkdir(conf.LocalDir, 755)
 	}
 
 	args := append(conf.Args, "rsync://"+conf.Upstream+conf.RemoteDir, "./")

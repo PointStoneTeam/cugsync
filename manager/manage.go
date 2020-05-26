@@ -80,7 +80,7 @@ func ExitTask(key string, err error) error {
 		cache.Set(statusPrefix+key, SUCC, gocache.NoExpiration)
 	}
 	startTime, _ := cache.Get(timePrefix + key)
-	recordHistory(&History{
+	RecordHistory(&History{
 		Name:      key,
 		StartTime: startTime.(time.Time),
 		EndTime:   time.Now(),
@@ -128,7 +128,7 @@ func GetHistory(taskName string) ([]*History, error) {
 	return ret, nil
 }
 
-func recordHistory(record *History) {
+func RecordHistory(record *History) {
 	db, err := bolt.Open("sync.db", 0600, nil)
 	if err != nil {
 		log.Error(err)

@@ -27,7 +27,8 @@ func TestCreateJob(t *testing.T) {
 
 func TestStartJob(t *testing.T) {
 	jobName := "testJob"
-	CreateJob(jobName, "*/1 * * * *", rsync.InitConfig("./test_rsync",
+	// every minute do this job
+	CreateJob(jobName, "*/1 * * * *", rsync.InitConfig("./test_rsync/",
 		"/eclipse/swtchart/releases/0.12.0/release/",
 		"mirrors.tuna.tsinghua.edu.cn",
 		[]string{"-avz", "--delete"}))
@@ -44,7 +45,7 @@ func TestStartJob(t *testing.T) {
 	t.Logf("job: %v", j)
 
 	StartJob(jobName)
-	time.Sleep( time.Minute)
+	time.Sleep(time.Minute)
 	historyList, err := GetHistory("testJob")
 	if err != nil {
 		t.Errorf("GetHistory error: %s", err.Error())
