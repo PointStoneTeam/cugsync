@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/PointStoneTeam/cugsync/setting"
 	"time"
+
+	"github.com/PointStoneTeam/cugsync/setting"
 
 	"github.com/boltdb/bolt"
 	log "github.com/sirupsen/logrus"
@@ -47,10 +48,11 @@ func GetHistory(taskName string) ([]*History, error) {
 
 	ret := make([]*History, 0)
 	err = db.View(func(tx *bolt.Tx) error {
-		c := tx.Bucket([]byte(historyBucket)).Cursor()
-		if c == nil {
+		b := tx.Bucket([]byte(historyBucket))
+		if b == nil {
 			return fmt.Errorf("bucket is not init")
 		}
+		c := b.Cursor()
 		keyPrefix := fmt.Sprintf("%s%s", syncHistoryPrefix, taskName)
 		for k, v := c.Seek([]byte(keyPrefix)); k != nil && bytes.HasPrefix(k, []byte(keyPrefix)); k, v = c.Next() {
 			item := new(History)
