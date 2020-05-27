@@ -1,0 +1,34 @@
+[
+  {
+    "name": "job1",
+    "spec": "*/1 * * * *",
+    "config": {
+      "Command": "rsync",
+      "LocalDir": "./test_rsync",
+      "RemoteDir": "/eclipse/swtchart/releases/0.12.0/release/",
+      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "Args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name": "job2",
+    "spec": "*/1 * * * *",
+    "config": {
+      "Command": "rsync",
+      "LocalDir": "./test_rsync",
+      "RemoteDir": "/eclipse/swtchart/releases/0.12.0/release/",
+      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "Args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  }
+]

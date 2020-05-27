@@ -9,6 +9,8 @@ dist/
 release/
 main.exe
 main
+sync.db
+test_rsync/
 
 # User-specific stuff
 .idea/**/workspace.xml

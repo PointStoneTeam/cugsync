@@ -70,7 +70,7 @@ func TestInitJobs(t *testing.T) {
 		Spec:   "*/1 * * * *",
 		Config: rsync.InitConfig("./test_rsync", "/eclipse/swtchart/releases/0.12.0/release/", "mirrors.tuna.tsinghua.edu.cn", []string{"-avz", "--delete"}),
 	})
-	InitJobs(list)
+	InitJobs(&list)
 	if jobList, err := GetAllJobs(); err != nil {
 		t.Errorf("getalljobs error: %s", err.Error())
 	} else {

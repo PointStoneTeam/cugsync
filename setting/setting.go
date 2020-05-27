@@ -43,7 +43,6 @@ func LoadUserConfig(filePath string) error {
 	if len(filePath) == 0 {
 		return fmt.Errorf("配置文件名不能为空")
 	}
-
 	log.Infof("当前使用的配置文件为:%s", filePath)
 
 	content, _ = file.ReadFromFile(filePath)
@@ -81,11 +80,12 @@ func GetDefaultJob(filePath string) (*[]manager.UnCreatedJob, error) {
 	if len(filePath) == 0 {
 		return nil, fmt.Errorf("默认任务配置文件名不能为空")
 	}
+	log.Infof("当前使用的任务计划配置文件为:%s", filePath)
 
 	content, _ = file.ReadFromFile(filePath)
 	err = json.Unmarshal(content, &unCreatedJob)
 	if err != nil {
-		return nil, fmt.Errorf("导入用户配置出现错误: %w", err)
+		return nil, fmt.Errorf("导入任务计划配置出现错误: %w", err)
 	}
 	log.Info("成功导入默认任务配置")
 	return unCreatedJob, nil

@@ -50,6 +50,7 @@ func (this Job) Run() {
 	this.LatestSyncStatus = STARTED
 
 	// start rsync job, record rsync history
+	log.Infof("start rsync job, upstream: %s, remoteDir: %s, localDir: %s, args: %v", this.Config.Upstream, this.Config.RemoteDir, this.Config.LocalDir, this.Config.Args)
 	if err := rsync.ExecCommand(this.Config); err != nil {
 		// job maybe failed
 		this.LatestSyncStatus = FAILED
@@ -87,6 +88,7 @@ func CreateJob(j *UnCreatedJob) {
 
 	cache.Set(jobPrefix+job.Name, job, gocache.NoExpiration)
 	ListAddJob(job.Name)
+	log.Infof("create job: %s", j.Name)
 }
 
 // GetJob : get job from cache by name
@@ -115,6 +117,7 @@ func StartJob(name string) error {
 	if j.Status == Start {
 		return fmt.Errorf("job: %s is started.", j.Name)
 	}
+	log.Infof("start job %s", j.Name)
 	go cron.StartJob(j.Spec, j, j.Shut)
 	j.Status = Start
 	return nil
@@ -170,8 +173,8 @@ func GetAllJobs() ([]*Job, error) {
 }
 
 // InitJobs from conf,then create and start
-func InitJobs(jList []UnCreatedJob) {
-	for _, j := range jList {
+func InitJobs(jList *[]UnCreatedJob) {
+	for _, j := range *jList {
 		CreateJob(&j)
 		StartJob(j.Name)
 	}

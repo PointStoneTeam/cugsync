@@ -30,8 +30,10 @@ func main() {
 	if hasRsync, info := rsync.CheckRsync(); !hasRsync {
 		log.Fatal(info)
 	}
-	// 导入默认配置的 Jobs
+	// 导入默认配置的 Jobs，默认启动从配置文件读到的任务
 	if jobList, err := setting.GetDefaultJob(*jobPath); err != nil {
+		log.WithField("err", err).Warnln("没有任务计划文件，启动后将无初始任务")
+	} else {
 		manager.InitJobs(jobList)
 	}
 
