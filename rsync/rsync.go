@@ -29,6 +29,17 @@ func InitConfig(localDir, remoteDir, upstream string, args []string) *Config {
 	}
 }
 
+// InitDefaultConfig init and return default args
+func InitDefaultConfig(localDir, remoteDir, upstream string) *Config {
+	return &Config{
+		Command:   RSYNC_CMD,
+		LocalDir:  localDir,
+		RemoteDir: remoteDir,
+		Upstream:  upstream,
+		Args:      []string{"-avz", "--delete", "--ipv6", "--safe-links"},
+	}
+}
+
 // CheckRsync checks if rsync had been installed
 // and returns the version info about rsync
 func CheckRsync() (hasRsync bool, info string) {
@@ -42,6 +53,7 @@ func CheckRsync() (hasRsync bool, info string) {
 }
 
 // ExecCommand start calling rsync command with specified config
+// default args: -avz --delete --ipv6 --safe-links
 func ExecCommand(conf *Config) error {
 	// checkPath exist,if no folder then create
 	if _, err := file.PathExists(conf.LocalDir); err != nil {

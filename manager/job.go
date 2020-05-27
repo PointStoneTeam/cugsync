@@ -18,6 +18,15 @@ const (
 	Stop   TaskStart = 3
 )
 
+var cache = gocache.New(gocache.NoExpiration, 0)
+
+const JobList = "job_list"
+
+func init() {
+	var jobList []string
+	cache.Set(JobList, jobList, gocache.NoExpiration)
+}
+
 // Define of Job
 type Job struct {
 	Name             string         `json:"name"`
@@ -30,19 +39,29 @@ type Job struct {
 	Shut             chan int       `json:"shut"` // use chan to stop job
 }
 
+type UnCreatedJob struct {
+	Name   string        `json:"name"`
+	Spec   string        `json:"spec"`
+	Config *rsync.Config `json:"config"`
+}
+
 // implement Run() interface to start rsync job
 func (this Job) Run() {
+	this.LatestSyncStatus = STARTED
 
 	// start rsync job, record rsync history
 	if err := rsync.ExecCommand(this.Config); err != nil {
-		recordHistory(&History{
+		// job maybe failed
+		this.LatestSyncStatus = FAILED
+		RecordHistory(&History{
 			Name:      this.Name,
 			StartTime: this.StartTime,
 			EndTime:   time.Now(),
 			Info:      err.Error(),
 		})
 	} else {
-		recordHistory(&History{
+		this.LatestSyncStatus = SUCC
+		RecordHistory(&History{
 			Name:      this.Name,
 			StartTime: this.StartTime,
 			EndTime:   time.Now(),
@@ -54,12 +73,12 @@ func (this Job) Run() {
 
 // CreateJob : create job, add to cache
 // if job exist, this operation will replace job
-func CreateJob(name, spec string, config *rsync.Config) {
+func CreateJob(j *UnCreatedJob) {
 	// init job status
 	job := &Job{
-		Name:             name,
-		Spec:             spec,
-		Config:           config,
+		Name:             j.Name,
+		Spec:             j.Spec,
+		Config:           j.Config,
 		StartTime:        time.Now(),
 		Status:           Create,
 		Shut:             make(chan int),
@@ -67,6 +86,7 @@ func CreateJob(name, spec string, config *rsync.Config) {
 	}
 
 	cache.Set(jobPrefix+job.Name, job, gocache.NoExpiration)
+	ListAddJob(job.Name)
 }
 
 // GetJob : get job from cache by name
@@ -119,4 +139,40 @@ func StopJob(name string) error {
 	cron.StopJob(j.Shut)
 	j.Status = Stop
 	return nil
+}
+
+// add jobName to cache list
+func ListAddJob(jobName string) {
+	if ret, found := cache.Get(JobList); found {
+		jobList := ret.([]string)
+		jobList = append(jobList, jobName)
+		cache.Set(JobList, jobList, gocache.NoExpiration)
+	}
+}
+
+func GetAllJobs() ([]*Job, error) {
+	var (
+		jobList []string
+		reList  []*Job
+	)
+	if ret, found := cache.Get(JobList); found {
+		jobList = ret.([]string)
+	} else {
+		return nil, fmt.Errorf("未找到任务计划列表")
+	}
+	// get all from cache
+	for _, jobName := range jobList {
+		if ret, found := cache.Get(jobPrefix + jobName); found {
+			reList = append(reList, ret.(*Job))
+		}
+	}
+	return reList, nil
+}
+
+// InitJobs from conf,then create and start
+func InitJobs(jList []UnCreatedJob) {
+	for _, j := range jList {
+		CreateJob(&j)
+		StartJob(j.Name)
+	}
 }

@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
-	"github.com/PointStoneTeam/cugsync/conf"
+	"github.com/PointStoneTeam/cugsync/manager"
 	"github.com/PointStoneTeam/cugsync/routers"
 	"github.com/PointStoneTeam/cugsync/rsync"
+	"github.com/PointStoneTeam/cugsync/setting"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"time"
@@ -12,7 +13,8 @@ import (
 
 func main() {
 
-	confPath := flag.String("conf", "config.json", "指定配置文件路径")
+	confPath := flag.String("conf", "conf/config.json", "指定配置文件路径")
+	jobPath := flag.String("job", "conf/job.json", "指定初始任务文件路径")
 	flag.Parse()
 
 	log.SetFormatter(&log.TextFormatter{
@@ -21,16 +23,20 @@ func main() {
 	})
 
 	// 加载用户配置
-	if err := conf.LoadUserConfig(*confPath); err != nil {
+	if err := setting.LoadUserConfig(*confPath); err != nil {
 		log.Fatal(err)
 	}
 	// 判断 rsync 是否安装
 	if hasRsync, info := rsync.CheckRsync(); !hasRsync {
 		log.Fatal(info)
 	}
+	// 导入默认配置的 Jobs
+	if jobList, err := setting.GetDefaultJob(*jobPath); err != nil {
+		manager.InitJobs(jobList)
+	}
 
 	// 处理端口绑定
-	Addr := conf.GetBindAddr(conf.SyncSet.Server.BindGlobal, conf.SyncSet.Server.Port)
+	Addr := setting.GetBindAddr(setting.SyncSet.Server.BindGlobal, setting.SyncSet.Server.Port)
 
 	// 启动服务器
 	server := &http.Server{

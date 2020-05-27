@@ -1,9 +1,9 @@
-package conf
+package setting
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
+	"github.com/PointStoneTeam/cugsync/manager"
 	"github.com/PointStoneTeam/cugsync/pkg/file"
 	log "github.com/sirupsen/logrus"
 	"time"
@@ -35,11 +35,13 @@ type SyncSetting struct {
 var SyncSet = &SyncSetting{}
 
 func LoadUserConfig(filePath string) error {
-	var content []byte
-	var err error
+	var (
+		content []byte
+		err     error
+	)
 
 	if len(filePath) == 0 {
-		return errors.New("配置文件名不能为空")
+		return fmt.Errorf("配置文件名不能为空")
 	}
 
 	log.Infof("当前使用的配置文件为:%s", filePath)
@@ -66,4 +68,25 @@ func GetBindAddr(bind bool, port int) string {
 
 func GetDistPATH() string {
 	return SyncSet.Server.DistPATH
+}
+
+// resolve default job config
+func GetDefaultJob(filePath string) (*[]manager.UnCreatedJob, error) {
+	var (
+		content      []byte
+		err          error
+		unCreatedJob *[]manager.UnCreatedJob
+	)
+
+	if len(filePath) == 0 {
+		return nil, fmt.Errorf("默认任务配置文件名不能为空")
+	}
+
+	content, _ = file.ReadFromFile(filePath)
+	err = json.Unmarshal(content, &unCreatedJob)
+	if err != nil {
+		return nil, fmt.Errorf("导入用户配置出现错误: %w", err)
+	}
+	log.Info("成功导入默认任务配置")
+	return unCreatedJob, nil
 }

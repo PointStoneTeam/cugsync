@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/boltdb/bolt"
-	gocache "github.com/patrickmn/go-cache"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -32,71 +31,10 @@ const (
 
 const (
 	jobPrefix         = "job:"
-	statusPrefix      = "status:"
 	timePrefix        = "time:"
 	syncHistoryPrefix = "sync_history:"
 	historyBucket     = "sync_history_bucket"
 )
-
-var cache = gocache.New(gocache.NoExpiration, 0)
-
-// InitTaskKeys init task keys in cahce
-func InitTaskKeys(keys []string) {
-	for _, v := range keys {
-		cache.Set(statusPrefix+v, SLEEP, gocache.NoExpiration)
-	}
-}
-
-// StartTask notify manager a task had started executing
-func StartTask(key string) error {
-	status, ok := cache.Get(statusPrefix + key)
-	if !ok {
-		return fmt.Errorf("invalid task key: %s", key)
-	}
-	if status == STARTED {
-		return fmt.Errorf("task %s had started, can not start again", key)
-	}
-	cache.Set(statusPrefix+key, STARTED, gocache.NoExpiration)
-	cache.Set(timePrefix+key, time.Now(), gocache.NoExpiration)
-	return nil
-}
-
-// ExitTask notify manager a task had been executed
-// it also record task information in history
-func ExitTask(key string, err error) error {
-	status, ok := cache.Get(statusPrefix + key)
-	if !ok {
-		return fmt.Errorf("invalid task key: %s", key)
-	}
-	if status != STARTED {
-		return fmt.Errorf("task %s status is %d, can not exit", key, status)
-	}
-
-	syncInfo := "ok"
-	if err != nil {
-		cache.Set(statusPrefix+key, FAILED, gocache.NoExpiration)
-		syncInfo = err.Error()
-	} else {
-		cache.Set(statusPrefix+key, SUCC, gocache.NoExpiration)
-	}
-	startTime, _ := cache.Get(timePrefix + key)
-	RecordHistory(&History{
-		Name:      key,
-		StartTime: startTime.(time.Time),
-		EndTime:   time.Now(),
-		Info:      syncInfo,
-	})
-	return nil
-}
-
-// GetTaskStatus get task status from cache
-func GetTaskStatus(key string) SyncTaskStatus {
-	ret, ok := cache.Get(statusPrefix + key)
-	if !ok {
-		return UNKNOWN
-	}
-	return ret.(SyncTaskStatus)
-}
 
 // GetHistory returns all sync history about specified task
 func GetHistory(taskName string) ([]*History, error) {
