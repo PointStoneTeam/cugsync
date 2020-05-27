@@ -1,8 +1,10 @@
 package manager
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/PointStoneTeam/cugsync/cron"
+	"github.com/PointStoneTeam/cugsync/pkg/file"
 	"github.com/PointStoneTeam/cugsync/rsync"
 	gocache "github.com/patrickmn/go-cache"
 	log "github.com/sirupsen/logrus"
@@ -36,7 +38,7 @@ type Job struct {
 	EndTime          time.Time      `json:"end_time"`
 	Status           TaskStart      `json:"status"` // Create | Start | Stop
 	LatestSyncStatus SyncTaskStatus `json:"latest_sync_status"`
-	Shut             chan int       `json:"shut"` // use chan to stop job
+	Shut             chan int       `json:"-"` // use chan to stop job
 }
 
 type UnCreatedJob struct {
@@ -161,7 +163,7 @@ func GetAllJobs() ([]*Job, error) {
 	if ret, found := cache.Get(JobList); found {
 		jobList = ret.([]string)
 	} else {
-		return nil, fmt.Errorf("未找到任务计划列表")
+		return nil, fmt.Errorf("获取任务计划列表出错")
 	}
 	// get all from cache
 	for _, jobName := range jobList {
@@ -178,4 +180,26 @@ func InitJobs(jList *[]UnCreatedJob) {
 		CreateJob(&j)
 		StartJob(j.Name)
 	}
+}
+
+// resolve default job config
+func GetDefaultJob(filePath string) (*[]UnCreatedJob, error) {
+	var (
+		content      []byte
+		err          error
+		unCreatedJob *[]UnCreatedJob
+	)
+
+	if len(filePath) == 0 {
+		return nil, fmt.Errorf("默认任务配置文件名不能为空")
+	}
+	log.Infof("当前使用的任务计划配置文件为:%s", filePath)
+
+	content, _ = file.ReadFromFile(filePath)
+	err = json.Unmarshal(content, &unCreatedJob)
+	if err != nil {
+		return nil, fmt.Errorf("导入任务计划配置出现错误: %w", err)
+	}
+	log.Info("成功导入默认任务配置")
+	return unCreatedJob, nil
 }

@@ -2,6 +2,7 @@ package manager
 
 import (
 	"github.com/PointStoneTeam/cugsync/rsync"
+	"github.com/PointStoneTeam/cugsync/setting"
 	"os"
 	"testing"
 	"time"
@@ -76,6 +77,18 @@ func TestInitJobs(t *testing.T) {
 	} else {
 		for i, j := range jobList {
 			t.Logf("job %d: %v", i, *j)
+		}
+	}
+}
+
+func TestGetHistory(t *testing.T) {
+	setting.SyncSet.DBPath = "../sync.db"
+
+	if hisList, err := GetHistory("job1"); err != nil {
+		t.Error(err)
+	} else {
+		for i, h := range hisList {
+			t.Logf("history %d: %v", i, h)
 		}
 	}
 }

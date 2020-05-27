@@ -5,14 +5,16 @@ const (
 	INVALID_PARAMS = 300
 	ERROR          = 400
 	// app error code
-	JOB_GET_FAILED = 10000
+	JOB_GET_FAILED     = 10000
+	HISTORY_GET_FAILED = 10001
 )
 
 var MsgFlags = map[int]string{
-	SUCCESS:        "ok",
-	INVALID_PARAMS: "请求参数错误",
-	ERROR:          "fail",
-	JOB_GET_FAILED: "任务列表获取失败",
+	SUCCESS:            "ok",
+	INVALID_PARAMS:     "请求参数错误",
+	ERROR:              "fail",
+	JOB_GET_FAILED:     "任务列表获取失败",
+	HISTORY_GET_FAILED: "历史列表获取失败",
 }
 
 func GetMsg(code int) string {

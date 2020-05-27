@@ -14,7 +14,6 @@ import (
 func main() {
 
 	confPath := flag.String("conf", "conf/config.json", "指定配置文件路径")
-	jobPath := flag.String("job", "conf/job.json", "指定初始任务文件路径")
 	flag.Parse()
 
 	log.SetFormatter(&log.TextFormatter{
@@ -31,7 +30,7 @@ func main() {
 		log.Fatal(info)
 	}
 	// 导入默认配置的 Jobs，默认启动从配置文件读到的任务
-	if jobList, err := setting.GetDefaultJob(*jobPath); err != nil {
+	if jobList, err := manager.GetDefaultJob(setting.GetDefaultJobPath()); err != nil {
 		log.WithField("err", err).Warnln("没有任务计划文件，启动后将无初始任务")
 	} else {
 		manager.InitJobs(jobList)

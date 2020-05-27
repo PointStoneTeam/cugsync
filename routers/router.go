@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"github.com/PointStoneTeam/cugsync/api"
 	"github.com/gin-gonic/gin"
 	cors "github.com/rs/cors/wrapper/gin"
 )
@@ -19,6 +20,11 @@ func InitRouter() *gin.Engine {
 			"message": "hello world",
 		})
 	})
+
+	// 获取所有任务接口
+	r.GET("/getAllJob", api.GetAllJob)
+	// 根据名称获取历史记录
+	r.GET("/getHistory", api.GetHistory)
 
 	return r
 }

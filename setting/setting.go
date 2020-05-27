@@ -3,7 +3,6 @@ package setting
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/PointStoneTeam/cugsync/manager"
 	"github.com/PointStoneTeam/cugsync/pkg/file"
 	log "github.com/sirupsen/logrus"
 	"time"
@@ -29,7 +28,9 @@ var defaultServerSetting = &Server{
 }
 
 type SyncSetting struct {
-	Server *Server `json:"server"`
+	DBPath         string  `json:"db_path"`
+	DefaultJobPath string  `json:"default_job_path"`
+	Server         *Server `json:"server"`
 }
 
 var SyncSet = &SyncSetting{}
@@ -66,27 +67,25 @@ func GetBindAddr(bind bool, port int) string {
 }
 
 func GetDistPATH() string {
-	return SyncSet.Server.DistPATH
+	if SyncSet.Server.DistPATH == "" {
+		return "./dist/"
+	} else {
+		return SyncSet.Server.DistPATH
+	}
 }
 
-// resolve default job config
-func GetDefaultJob(filePath string) (*[]manager.UnCreatedJob, error) {
-	var (
-		content      []byte
-		err          error
-		unCreatedJob *[]manager.UnCreatedJob
-	)
-
-	if len(filePath) == 0 {
-		return nil, fmt.Errorf("默认任务配置文件名不能为空")
+func GetDefaultJobPath() string {
+	if SyncSet.DefaultJobPath == "" {
+		return "conf/job.json"
+	} else {
+		return SyncSet.DefaultJobPath
 	}
-	log.Infof("当前使用的任务计划配置文件为:%s", filePath)
+}
 
-	content, _ = file.ReadFromFile(filePath)
-	err = json.Unmarshal(content, &unCreatedJob)
-	if err != nil {
-		return nil, fmt.Errorf("导入任务计划配置出现错误: %w", err)
+func GetDBPath() string {
+	if SyncSet.DBPath == "" {
+		return "sync.db"
+	} else {
+		return SyncSet.DBPath
 	}
-	log.Info("成功导入默认任务配置")
-	return unCreatedJob, nil
 }

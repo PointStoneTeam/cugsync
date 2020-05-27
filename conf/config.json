@@ -4,5 +4,6 @@
     "refresh_time": 10,
     "bind_global": true,
     "dist_path": "./dist/"
-  }
+  },
+  "db_path": "sync.db"
 }

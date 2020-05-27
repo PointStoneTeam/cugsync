@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/PointStoneTeam/cugsync/setting"
 	"time"
 
 	"github.com/boltdb/bolt"
@@ -38,7 +39,7 @@ const (
 
 // GetHistory returns all sync history about specified task
 func GetHistory(taskName string) ([]*History, error) {
-	db, err := bolt.Open("sync.db", 0600, nil)
+	db, err := bolt.Open(setting.GetDBPath(), 0600, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +68,7 @@ func GetHistory(taskName string) ([]*History, error) {
 }
 
 func RecordHistory(record *History) {
-	db, err := bolt.Open("sync.db", 0600, nil)
+	db, err := bolt.Open(setting.GetDBPath(), 0600, nil)
 	if err != nil {
 		log.Error(err)
 		return
