@@ -25,6 +25,7 @@ func InitRouter() *gin.Engine {
 	r.GET("/getAllJob", api.GetAllJob)
 	// 根据名称获取历史记录
 	r.GET("/getHistory", api.GetHistory)
-
+	// 获取文件列表
+	r.GET("/getFolder", api.GetFolder)
 	return r
 }
