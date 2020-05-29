@@ -37,7 +37,7 @@
     "config": {
       "Command": "rsync",
       "LocalDir": "/data1/mirrors/ubuntu-release",
-      "RemoteDir": "/ubuntu",
+      "RemoteDir": "/ubuntu-release",
       "Upstream": "mirrors.tuna.tsinghua.edu.cn",
       "Args": [
         "-avz",
