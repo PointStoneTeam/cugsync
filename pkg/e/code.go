@@ -7,6 +7,7 @@ const (
 	// app error code
 	JOB_GET_FAILED     = 10000
 	HISTORY_GET_FAILED = 10001
+	FOLDER_GET_FAILED  = 10002
 )
 
 var MsgFlags = map[int]string{
@@ -15,6 +16,7 @@ var MsgFlags = map[int]string{
 	ERROR:              "fail",
 	JOB_GET_FAILED:     "任务列表获取失败",
 	HISTORY_GET_FAILED: "历史列表获取失败",
+	FOLDER_GET_FAILED:  "获取文件夹列表失败",
 }
 
 func GetMsg(code int) string {

@@ -30,6 +30,7 @@ var defaultServerSetting = &Server{
 type SyncSetting struct {
 	DBPath         string  `json:"db_path"`
 	DefaultJobPath string  `json:"default_job_path"`
+	StorePath      string  `json:"store_path"`
 	Server         *Server `json:"server"`
 }
 
@@ -87,5 +88,13 @@ func GetDBPath() string {
 		return "sync.db"
 	} else {
 		return SyncSet.DBPath
+	}
+}
+
+func GetStorePath() string {
+	if SyncSet.StorePath == "" {
+		return "/data1"
+	} else {
+		return SyncSet.StorePath
 	}
 }

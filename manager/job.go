@@ -37,6 +37,7 @@ type Job struct {
 	StartTime        time.Time      `json:"start_time"`
 	EndTime          time.Time      `json:"end_time"`
 	Status           TaskStart      `json:"status"` // Create | Start | Stop
+	LatestSyncTime   time.Time      `json:"latest_sync_time"`
 	LatestSyncStatus SyncTaskStatus `json:"latest_sync_status"`
 	Shut             chan int       `json:"-"` // use chan to stop job
 }
@@ -50,6 +51,7 @@ type UnCreatedJob struct {
 // implement Run() interface to start rsync job
 func (this Job) Run() {
 	this.LatestSyncStatus = STARTED
+	this.LatestSyncTime = time.Now()
 
 	// start rsync job, record rsync history
 	log.Infof("start rsync job, upstream: %s, remoteDir: %s, localDir: %s, args: %v", this.Config.Upstream, this.Config.RemoteDir, this.Config.LocalDir, this.Config.Args)
