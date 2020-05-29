@@ -30,5 +30,69 @@
         "--safe-links"
       ]
     }
+  },
+  {
+    "name": "ubuntu",
+    "spec": "0 18 * * *",
+    "config": {
+      "Command": "rsync",
+      "LocalDir": "/data1/ubuntu",
+      "RemoteDir": "/ubuntu",
+      "Upstream": "mirrors.ustc.edu.cn",
+      "Args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name": "ubuntu-cdimage",
+    "spec": "0 3 * * *",
+    "config": {
+      "Command": "rsync",
+      "LocalDir": "/data1/ubuntu-cdimage",
+      "RemoteDir": "/ubuntu-cdimage",
+      "Upstream": "mirrors.ustc.edu.cn",
+      "Args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name": "ubuntu-release",
+    "spec": "0 3 * * *",
+    "config": {
+      "Command": "rsync",
+      "LocalDir": "/data1/ubuntu-releases",
+      "RemoteDir": "/ubuntu-releases",
+      "Upstream": "mirrors.ustc.edu.cn",
+      "Args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name": "ubuntu-release",
+    "spec": "0 3 * * *",
+    "config": {
+      "Command": "rsync",
+      "LocalDir": "/data1/ubuntu-releases",
+      "RemoteDir": "/ubuntu-releases",
+      "Upstream": "mirrors.ustc.edu.cn",
+      "Args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
   }
 ]
