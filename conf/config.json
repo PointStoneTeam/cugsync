@@ -5,7 +5,7 @@
     "bind_global": true,
     "dist_path": "./dist/"
   },
-  "store_path": "/data1",
+  "store_path": "/data1/mirrors",
   "default_job_path": "conf/job.json",
   "db_path": "sync.db"
 }

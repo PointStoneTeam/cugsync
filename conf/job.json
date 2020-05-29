@@ -1,27 +1,11 @@
 [
   {
-    "name": "job1",
-    "spec": "*/1 * * * *",
+    "name": "centos",
+    "spec": "0 */1 * * *",
     "config": {
       "Command": "rsync",
-      "LocalDir": "./test_rsync",
-      "RemoteDir": "/eclipse/swtchart/releases/0.12.0/release/",
-      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "Args": [
-        "-avz",
-        "--delete",
-        "--ipv6",
-        "--safe-links"
-      ]
-    }
-  },
-  {
-    "name": "job2",
-    "spec": "*/1 * * * *",
-    "config": {
-      "Command": "rsync",
-      "LocalDir": "./test_rsync",
-      "RemoteDir": "/eclipse/swtchart/releases/0.12.0/release/",
+      "LocalDir": "/data1/mirrors/centos",
+      "RemoteDir": "/centos",
       "Upstream": "mirrors.tuna.tsinghua.edu.cn",
       "Args": [
         "-avz",
@@ -33,28 +17,12 @@
   },
   {
     "name": "ubuntu",
-    "spec": "0 18 * * *",
+    "spec": "0 */1 * * *",
     "config": {
       "Command": "rsync",
-      "LocalDir": "/data1/ubuntu",
+      "LocalDir": "/data1/mirrors/ubuntu",
       "RemoteDir": "/ubuntu",
-      "Upstream": "mirrors.ustc.edu.cn",
-      "Args": [
-        "-avz",
-        "--delete",
-        "--ipv6",
-        "--safe-links"
-      ]
-    }
-  },
-  {
-    "name": "ubuntu-cdimage",
-    "spec": "0 3 * * *",
-    "config": {
-      "Command": "rsync",
-      "LocalDir": "/data1/ubuntu-cdimage",
-      "RemoteDir": "/ubuntu-cdimage",
-      "Upstream": "mirrors.ustc.edu.cn",
+      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
       "Args": [
         "-avz",
         "--delete",
@@ -65,11 +33,43 @@
   },
   {
     "name": "ubuntu-release",
-    "spec": "0 3 * * *",
+    "spec": "0 */1 * * *",
     "config": {
       "Command": "rsync",
-      "LocalDir": "/data1/ubuntu-releases",
-      "RemoteDir": "/ubuntu-releases",
+      "LocalDir": "/data1/mirrors/ubuntu-release",
+      "RemoteDir": "/ubuntu",
+      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "Args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name": "debian",
+    "spec": "0 */1 * * *",
+    "config": {
+      "Command": "rsync",
+      "LocalDir": "/data1/mirrors/debian",
+      "RemoteDir": "/debian",
+      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "Args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name": "deepin",
+    "spec": "0 */1 * * *",
+    "config": {
+      "Command": "rsync",
+      "LocalDir": "/data1/mirrors/deepin",
+      "RemoteDir": "/deepin",
       "Upstream": "mirrors.ustc.edu.cn",
       "Args": [
         "-avz",
@@ -80,12 +80,28 @@
     }
   },
   {
-    "name": "ubuntu-release",
-    "spec": "0 3 * * *",
+    "name": "epel",
+    "spec": "0 */1 * * *",
     "config": {
       "Command": "rsync",
-      "LocalDir": "/data1/ubuntu-releases",
-      "RemoteDir": "/ubuntu-releases",
+      "LocalDir": "/data1/mirrors/epel",
+      "RemoteDir": "/epel",
+      "Upstream": "mirrors.ustc.edu.cn",
+      "Args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name": "archlinux",
+    "spec": "0 */1 * * *",
+    "config": {
+      "Command": "rsync",
+      "LocalDir": "/data1/mirrors/archlinux",
+      "RemoteDir": "/archlinux",
       "Upstream": "mirrors.ustc.edu.cn",
       "Args": [
         "-avz",

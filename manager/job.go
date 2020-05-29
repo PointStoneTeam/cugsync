@@ -54,7 +54,8 @@ func (this Job) Run() {
 	this.LatestSyncTime = time.Now()
 
 	// start rsync job, record rsync history
-	log.Infof("start rsync job, upstream: %s, remoteDir: %s, localDir: %s, args: %v", this.Config.Upstream, this.Config.RemoteDir, this.Config.LocalDir, this.Config.Args)
+	//log.Infof("start rsync job %s, upstream: %s, remoteDir: %s, localDir: %s, args: %v", this.Name, this.Config.Upstream, this.Config.RemoteDir, this.Config.LocalDir, this.Config.Args)
+	log.Infof("start rsync job %s, spec: %s, config: %v", this.Name, this.Spec, this.Config)
 	if err := rsync.ExecCommand(this.Config); err != nil {
 		// job maybe failed
 		this.LatestSyncStatus = FAILED
