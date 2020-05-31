@@ -33,6 +33,7 @@ func init() {
 type Job struct {
 	Name             string         `json:"name"`
 	Description      string         `json:"description"`
+	Catalog          string         `json:"catalog"`
 	Spec             string         `json:"spec"`   // cron expression
 	Config           *rsync.Config  `json:"config"` // rsync config
 	StartTime        time.Time      `json:"start_time"`
@@ -44,9 +45,11 @@ type Job struct {
 }
 
 type UnCreatedJob struct {
-	Name   string        `json:"name"`
-	Spec   string        `json:"spec"`
-	Config *rsync.Config `json:"config"`
+	Name        string        `json:"name"`
+	Description string        `json:"description"`
+	Catalog     string        `json:"catalog"`
+	Spec        string        `json:"spec"`
+	Config      *rsync.Config `json:"config"`
 }
 
 // implement Run() interface to start rsync job
@@ -84,6 +87,8 @@ func CreateJob(j *UnCreatedJob) {
 	// init job status
 	job := &Job{
 		Name:             j.Name,
+		Description:      j.Description,
+		Catalog:          j.Catalog,
 		Spec:             j.Spec,
 		Config:           j.Config,
 		StartTime:        time.Now(),

@@ -18,6 +18,8 @@ import (
 // @contact.name PointStone
 // @contact.url https://mirrors.cug.edu.cn
 // @contact.qq 1011615604
+
+// @host mirrors.cug.edu.cn/api/
 func main() {
 
 	confPath := flag.String("conf", "conf/config.json", "指定配置文件路径")

@@ -12,12 +12,11 @@ import (
 // @version v0.0.0
 // @Summary getAllJob
 // @Description 获取所有任务接口
+// @Description ```code 10000 任务列表获取失败```
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} manager.Job{config=rsync.Config} "desc"
-// @Failure 400 {object} interface{} "We need ID!!"
-// @Failure 404 {object} interface{} "Can not find ID"
-// @Router /api/getAllJob [get]
+// @Success 200 {object} app.Res{data=object{sum=integer,list=[]manager.UnCreatedJob}}
+// @Router /getAllJob [get]
 func GetAllJob(c *gin.Context) {
 	data := make(map[string]interface{})
 
@@ -31,7 +30,16 @@ func GetAllJob(c *gin.Context) {
 	}
 }
 
-// get history by name
+// @title 获取历史记录
+// @version v0.0.0
+// @Summary getHistory
+// @Description 获取历史记录
+// @Description ```code 10001 历史列表获取失败```
+// @Param name query string true "centos"
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} app.Res{data=object{sum=integer,list=[]manager.History}}
+// @Router /getHistory [get]
 func GetHistory(c *gin.Context) {
 	name := c.Query("name")
 
