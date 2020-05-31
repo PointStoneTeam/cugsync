@@ -11,11 +11,11 @@ const RSYNC_CMD = "rsync"
 
 // Config represents config for each sync task
 type Config struct {
-	Command   string // set Command as `rsync` on default
-	LocalDir  string
-	RemoteDir string
-	Upstream  string
-	Args      []string
+	Command   string   `json:"command"` // set Command as `rsync` on default
+	LocalDir  string   `json:"local_dir"`
+	RemoteDir string   `json:"remote_dir"`
+	Upstream  string   `json:"upstream"`
+	Args      []string `json:"args"`
 }
 
 // InitConfig init and return a rsync task config

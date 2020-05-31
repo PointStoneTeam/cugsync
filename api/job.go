@@ -8,7 +8,16 @@ import (
 	"net/http"
 )
 
-// get all job
+// @title 获取所有任务
+// @version v0.0.0
+// @Summary getAllJob
+// @Description 获取所有任务接口
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} manager.Job{config=rsync.Config} "desc"
+// @Failure 400 {object} interface{} "We need ID!!"
+// @Failure 404 {object} interface{} "Can not find ID"
+// @Router /api/getAllJob [get]
 func GetAllJob(c *gin.Context) {
 	data := make(map[string]interface{})
 

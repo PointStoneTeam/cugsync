@@ -11,6 +11,13 @@ import (
 	"time"
 )
 
+// @title CUGSYNC
+// @version 0.0.0
+// @description 中国地质大学（武汉）开源镜像站
+
+// @contact.name PointStone
+// @contact.url https://mirrors.cug.edu.cn
+// @contact.qq 1011615604
 func main() {
 
 	confPath := flag.String("conf", "conf/config.json", "指定配置文件路径")

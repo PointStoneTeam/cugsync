@@ -32,6 +32,7 @@ func init() {
 // Define of Job
 type Job struct {
 	Name             string         `json:"name"`
+	Description      string         `json:"description"`
 	Spec             string         `json:"spec"`   // cron expression
 	Config           *rsync.Config  `json:"config"` // rsync config
 	StartTime        time.Time      `json:"start_time"`

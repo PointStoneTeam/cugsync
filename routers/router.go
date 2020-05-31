@@ -21,7 +21,6 @@ func InitRouter() *gin.Engine {
 		})
 	})
 
-	// 获取所有任务接口
 	r.GET("/getAllJob", api.GetAllJob)
 	// 根据名称获取历史记录
 	r.GET("/getHistory", api.GetHistory)
