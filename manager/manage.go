@@ -24,7 +24,7 @@ type History struct {
 type SyncTaskStatus int
 
 const (
-	UNKNOWN SyncTaskStatus = -1
+	UNSTART SyncTaskStatus = -1
 	SLEEP   SyncTaskStatus = 0
 	STARTED SyncTaskStatus = 1
 	SUCC    SyncTaskStatus = 2

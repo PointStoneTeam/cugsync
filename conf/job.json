@@ -1,16 +1,16 @@
 [
   {
     "name": "centos",
-    "displayName": "CentOS",
+    "display_name": "CentOS",
     "description": "基于 Red Hat 的开源企业级操作系统（Linux发行版）",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
-      "Command": "rsync",
-      "LocalDir": "/data1/mirrors/centos",
-      "RemoteDir": "/centos",
-      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "Args": [
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/centos",
+      "remote_dir": "/centos",
+      "upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "args": [
         "-avz",
         "--delete",
         "--ipv6",
@@ -20,16 +20,16 @@
   },
   {
     "name": "ubuntu",
-    "displayName": "Ubuntu",
+    "display_name": "Ubuntu",
     "description": "Ubuntu 官方软件仓库（Linux发行版）",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
-      "Command": "rsync",
-      "LocalDir": "/data1/mirrors/ubuntu",
-      "RemoteDir": "/ubuntu",
-      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "Args": [
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/ubuntu",
+      "remote_dir": "/ubuntu",
+      "upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "args": [
         "-avz",
         "--delete",
         "--ipv6",
@@ -39,16 +39,16 @@
   },
   {
     "name": "ubuntu-release",
-    "displayName": "Ubuntu Releases",
+    "display_name": "Ubuntu Releases",
     "description": "Ubuntu 发行版安装镜像",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
-      "Command": "rsync",
-      "LocalDir": "/data1/mirrors/ubuntu-release",
-      "RemoteDir": "/ubuntu-release",
-      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "Args": [
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/ubuntu-release",
+      "remote_dir": "/ubuntu-release",
+      "upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "args": [
         "-avz",
         "--delete",
         "--ipv6",
@@ -58,16 +58,16 @@
   },
   {
     "name": "debian",
-    "displayName": "Debian",
+    "display_name": "Debian",
     "description": "Debian Linux 的官方软件包仓库",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
-      "Command": "rsync",
-      "LocalDir": "/data1/mirrors/debian",
-      "RemoteDir": "/debian",
-      "Upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "Args": [
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/debian",
+      "remote_dir": "/debian",
+      "upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "args": [
         "-avz",
         "--delete",
         "--ipv6",
@@ -77,16 +77,16 @@
   },
   {
     "name": "deepin",
-    "displayName": "Deepin",
+    "display_name": "Deepin",
     "description": "深度操作系统的官方软件仓库",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
-      "Command": "rsync",
-      "LocalDir": "/data1/mirrors/deepin",
-      "RemoteDir": "/deepin",
-      "Upstream": "mirrors.ustc.edu.cn",
-      "Args": [
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/deepin",
+      "remote_dir": "/deepin",
+      "upstream": "mirrors.ustc.edu.cn",
+      "args": [
         "-avz",
         "--delete",
         "--ipv6",
@@ -96,16 +96,16 @@
   },
   {
     "name": "epel",
-    "displayName": "EPEL",
+    "display_name": "EPEL",
     "description": "红帽系 Linux 的附加软件包仓库",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
-      "Command": "rsync",
-      "LocalDir": "/data1/mirrors/epel",
-      "RemoteDir": "/epel",
-      "Upstream": "mirrors.ustc.edu.cn",
-      "Args": [
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/epel",
+      "remote_dir": "/epel",
+      "upstream": "mirrors.ustc.edu.cn",
+      "args": [
         "-avz",
         "--delete",
         "--ipv6",
@@ -115,16 +115,16 @@
   },
   {
     "name": "archlinux",
-    "displayName": "Arch Linux",
+    "display_name": "Arch Linux",
     "description": "Arch Linux 的安装镜像和官方软件包仓库",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
-      "Command": "rsync",
-      "LocalDir": "/data1/mirrors/archlinux",
-      "RemoteDir": "/archlinux",
-      "Upstream": "mirrors.ustc.edu.cn",
-      "Args": [
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/archlinux",
+      "remote_dir": "/archlinux",
+      "upstream": "mirrors.ustc.edu.cn",
+      "args": [
         "-avz",
         "--delete",
         "--ipv6",

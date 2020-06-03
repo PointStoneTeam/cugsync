@@ -40,7 +40,7 @@ type Job struct {
 	StartTime        time.Time      `json:"start_time"`
 	EndTime          time.Time      `json:"end_time"`
 	Status           TaskStart      `json:"status"` // Create | Start | Stop
-	LatestSyncTime   time.Time      `json:"latest_sync_time"`
+	LatestSyncTime   time.Time     `json:"latest_sync_time"`
 	LatestSyncStatus SyncTaskStatus `json:"latest_sync_status"`
 	Shut             chan int       `json:"-"` // use chan to stop job
 }
@@ -89,6 +89,7 @@ func CreateJob(j *UnCreatedJob) {
 	// init job status
 	job := &Job{
 		Name:             j.Name,
+		DisplayName:      j.DisplayName,
 		Description:      j.Description,
 		Catalog:          j.Catalog,
 		Spec:             j.Spec,
@@ -96,7 +97,7 @@ func CreateJob(j *UnCreatedJob) {
 		StartTime:        time.Now(),
 		Status:           Create,
 		Shut:             make(chan int),
-		LatestSyncStatus: UNKNOWN,
+		LatestSyncStatus: UNSTART,
 	}
 
 	cache.Set(jobPrefix+job.Name, job, gocache.NoExpiration)
