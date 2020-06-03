@@ -1,7 +1,8 @@
 [
   {
     "name": "centos",
-    "description": "centos",
+    "displayName": "CentOS",
+    "description": "基于 Red Hat 的开源企业级操作系统（Linux发行版）",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
@@ -19,7 +20,8 @@
   },
   {
     "name": "ubuntu",
-    "description": "ubuntu",
+    "displayName": "Ubuntu",
+    "description": "Ubuntu 官方软件仓库（Linux发行版）",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
@@ -37,8 +39,9 @@
   },
   {
     "name": "ubuntu-release",
+    "displayName": "Ubuntu Releases",
+    "description": "Ubuntu 发行版安装镜像",
     "catalog": "system",
-    "description": "ubuntu-release",
     "spec": "0 */1 * * *",
     "config": {
       "Command": "rsync",
@@ -55,7 +58,8 @@
   },
   {
     "name": "debian",
-    "description": "debian",
+    "displayName": "Debian",
+    "description": "Debian Linux 的官方软件包仓库",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
@@ -73,7 +77,8 @@
   },
   {
     "name": "deepin",
-    "description": "deepin",
+    "displayName": "Deepin",
+    "description": "深度操作系统的官方软件仓库",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
@@ -91,7 +96,8 @@
   },
   {
     "name": "epel",
-    "description": "epel",
+    "displayName": "EPEL",
+    "description": "红帽系 Linux 的附加软件包仓库",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
@@ -109,7 +115,8 @@
   },
   {
     "name": "archlinux",
-    "description": "archlinux",
+    "displayName": "Arch Linux",
+    "description": "Arch Linux 的安装镜像和官方软件包仓库",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
