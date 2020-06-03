@@ -32,6 +32,7 @@ func init() {
 // Define of Job
 type Job struct {
 	Name             string         `json:"name"`
+	DisplayName      string         `json:"display_name"`
 	Description      string         `json:"description"`
 	Catalog          string         `json:"catalog"`
 	Spec             string         `json:"spec"`   // cron expression
@@ -46,6 +47,7 @@ type Job struct {
 
 type UnCreatedJob struct {
 	Name        string        `json:"name"`
+	DisplayName string        `json:"display_name"`
 	Description string        `json:"description"`
 	Catalog     string        `json:"catalog"`
 	Spec        string        `json:"spec"`

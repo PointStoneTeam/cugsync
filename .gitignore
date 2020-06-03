@@ -11,6 +11,8 @@ main.exe
 main
 sync.db
 test_rsync/
+docs/
+cugsync.tar.gz
 
 # User-specific stuff
 .idea/**/workspace.xml
