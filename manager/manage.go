@@ -34,7 +34,7 @@ const (
 const (
 	jobPrefix         = "job:"
 	timePrefix        = "time:"
-	syncHistoryPrefix = "sync_history:"
+	syncHistoryPrefix = "sync_history"
 	historyBucket     = "sync_history_bucket"
 )
 
@@ -53,7 +53,7 @@ func GetHistory(taskName string) ([]*History, error) {
 			return fmt.Errorf("bucket is not init")
 		}
 		c := b.Cursor()
-		keyPrefix := fmt.Sprintf("%s%s", syncHistoryPrefix, taskName)
+		keyPrefix := fmt.Sprintf("%s:%s:", syncHistoryPrefix, taskName)
 		for k, v := c.Seek([]byte(keyPrefix)); k != nil && bytes.HasPrefix(k, []byte(keyPrefix)); k, v = c.Next() {
 			item := new(History)
 			if err := json.Unmarshal(v, item); err != nil {
@@ -90,7 +90,7 @@ func RecordHistory(record *History) {
 			tx.CreateBucket([]byte(historyBucket))
 			b = tx.Bucket([]byte(historyBucket))
 		}
-		key := fmt.Sprintf("%s%s%v", syncHistoryPrefix, record.Name, time.Now().Unix())
+		key := fmt.Sprintf("%s:%s:%v", syncHistoryPrefix, record.Name, time.Now().Unix())
 		b.Put([]byte(key), infoBytes)
 		return nil
 	})
