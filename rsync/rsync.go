@@ -3,8 +3,10 @@ package rsync
 import (
 	"bytes"
 	"github.com/PointStoneTeam/cugsync/pkg/file"
+	log "github.com/sirupsen/logrus"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 const RSYNC_CMD = "rsync"
@@ -55,14 +57,33 @@ func CheckRsync() (hasRsync bool, info string) {
 // ExecCommand start calling rsync command with specified config
 // default args: -avz --delete --ipv6 --safe-links
 func ExecCommand(conf *Config) error {
+	var err error
 	// checkPath exist,if no folder then create
-	if _, err := file.PathExists(conf.LocalDir); err != nil {
-		os.Mkdir(conf.LocalDir, 755)
+	if _, err = file.PathExists(conf.LocalDir); err != nil {
+		err = os.Mkdir(conf.LocalDir, 755)
+		if err != nil {
+			log.WithFields(log.Fields{
+				"err":      err,
+				"localDir": conf.LocalDir,
+			}).Info("Mkdir error")
+			return err
+		}
 	}
 
 	args := append(conf.Args, "rsync://"+conf.Upstream+conf.RemoteDir, "./")
 	rsyncCmd := exec.Command(conf.Command, args...)
 	rsyncCmd.Dir = conf.LocalDir
+
+	// open a file and redirect std
+	name := strings.Split(conf.LocalDir, "/")
+	logName := name[len(name)-1] + ".log"
+	os.Remove(logName)
+	f, _ := os.OpenFile(logName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	defer f.Close()
+	//指定输出位置
+	rsyncCmd.Stderr = f
+	rsyncCmd.Stdout = f
+	// run the command
 	if err := rsyncCmd.Run(); err != nil {
 		return err
 	}

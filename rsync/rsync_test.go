@@ -14,8 +14,8 @@ func TestRsyncCheck(t *testing.T) {
 }
 
 func TestExecRsync(t *testing.T) {
-	os.Mkdir("test_rsync", os.ModePerm)
 	defer os.RemoveAll("test_rsync")
+	defer os.Remove("test_rsync.log")
 	conf := InitConfig("./test_rsync", "/eclipse/swtchart/releases/0.12.0/release/", "mirrors.tuna.tsinghua.edu.cn", []string{"-avz", "--delete"})
 	if err := ExecCommand(conf); err != nil {
 		t.Error(err)
