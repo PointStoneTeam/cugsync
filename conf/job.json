@@ -38,15 +38,15 @@
     }
   },
   {
-    "name": "ubuntu-release",
+    "name": "ubuntu-releases",
     "display_name": "Ubuntu Releases",
     "description": "Ubuntu 发行版安装镜像",
     "catalog": "system",
     "spec": "0 */1 * * *",
     "config": {
       "command": "rsync",
-      "local_dir": "/data1/mirrors/ubuntu-release",
-      "remote_dir": "/ubuntu-release",
+      "local_dir": "/data1/mirrors/ubuntu-releases",
+      "remote_dir": "/ubuntu-releases",
       "upstream": "mirrors.tuna.tsinghua.edu.cn",
       "args": [
         "-avz",
@@ -123,7 +123,7 @@
       "command": "rsync",
       "local_dir": "/data1/mirrors/archlinux",
       "remote_dir": "/archlinux",
-      "upstream": "mirrors.ustc.edu.cn",
+      "upstream": "mirrors.tuna.tsinghua.edu.cn",
       "args": [
         "-avz",
         "--delete",

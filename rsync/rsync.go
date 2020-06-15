@@ -74,18 +74,29 @@ func ExecCommand(conf *Config) error {
 	rsyncCmd := exec.Command(conf.Command, args...)
 	rsyncCmd.Dir = conf.LocalDir
 
-	// open a file and redirect std
-	name := strings.Split(conf.LocalDir, "/")
-	logName := name[len(name)-1] + ".log"
+	// remove the old log file
+	logName := GetLogName(conf)
 	os.Remove(logName)
+	// open a file and redirect std
 	f, _ := os.OpenFile(logName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	defer f.Close()
-	//指定输出位置
 	rsyncCmd.Stderr = f
 	rsyncCmd.Stdout = f
+
 	// run the command
 	if err := rsyncCmd.Run(); err != nil {
 		return err
 	}
 	return nil
+}
+
+// get the name of log file
+// eg. localDir is /data1/mirrors/ubuntu -> ubuntu.log
+func GetLogName(conf *Config) string {
+	name := strings.Split(conf.LocalDir, "/")
+	if len(name) == 0 {
+		return "unkown.log"
+	} else {
+		return name[len(name)-1] + ".log"
+	}
 }
