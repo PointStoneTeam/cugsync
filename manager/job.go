@@ -62,23 +62,29 @@ func (this Job) Run() {
 	// start rsync job, record rsync history
 	//log.Infof("start rsync job %s, upstream: %s, remoteDir: %s, localDir: %s, args: %v", this.Name, this.Config.Upstream, this.Config.RemoteDir, this.Config.LocalDir, this.Config.Args)
 	log.Infof("start rsync job %s, spec: %s, config: %v", this.Name, this.Spec, this.Config)
-	if err := rsync.ExecCommand(this.Config); err != nil {
-		// job maybe failed
-		*this.LatestSyncStatus = FAILED
-		RecordHistory(&History{
-			Name:      this.Name,
-			StartTime: this.StartTime,
-			EndTime:   time.Now(),
-			Info:      err.Error(),
-		})
-	} else {
-		*this.LatestSyncStatus = SUCC
-		RecordHistory(&History{
-			Name:      this.Name,
-			StartTime: this.StartTime,
-			EndTime:   time.Now(),
-			Info:      "rsync complete",
-		})
+	for retryCount := 2; retryCount > 0; retryCount-- {
+		// first time error, after a second retry
+		if err := rsync.ExecCommand(this.Config); err != nil && retryCount == 2 {
+			<-time.After(time.Second)
+		} else if err != nil {
+			// job maybe failed
+			*this.LatestSyncStatus = FAILED
+			RecordHistory(&History{
+				Name:      this.Name,
+				StartTime: this.StartTime,
+				EndTime:   time.Now(),
+				Info:      err.Error(),
+			})
+		} else {
+			*this.LatestSyncStatus = SUCC
+			RecordHistory(&History{
+				Name:      this.Name,
+				StartTime: this.StartTime,
+				EndTime:   time.Now(),
+				Info:      "rsync complete",
+			})
+			break
+		}
 	}
 
 }
@@ -88,14 +94,14 @@ func (this Job) Run() {
 func CreateJob(j *UnCreatedJob) {
 	// init job status
 	job := &Job{
-		Name:             j.Name,
-		DisplayName:      j.DisplayName,
-		Description:      j.Description,
-		Catalog:          j.Catalog,
-		Spec:             j.Spec,
-		Config:           j.Config,
-		StartTime:        time.Now(),
-		Shut:             make(chan int),
+		Name:        j.Name,
+		DisplayName: j.DisplayName,
+		Description: j.Description,
+		Catalog:     j.Catalog,
+		Spec:        j.Spec,
+		Config:      j.Config,
+		StartTime:   time.Now(),
+		Shut:        make(chan int),
 		// 使用指针才可以更新 job 状态
 		Status:           new(TaskStart),
 		LatestSyncStatus: new(SyncTaskStatus),
