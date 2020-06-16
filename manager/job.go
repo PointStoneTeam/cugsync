@@ -144,6 +144,7 @@ func StartJob(name string) error {
 	log.Infof("start job %s", j.Name)
 	go cron.StartJob(j.Spec, j, j.Shut)
 	*j.Status = Start
+	*j.LatestSyncTime = time.Now()
 	return nil
 }
 

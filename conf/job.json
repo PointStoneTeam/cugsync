@@ -4,7 +4,7 @@
     "display_name": "CentOS",
     "description": "基于 Red Hat 的开源企业级操作系统（Linux发行版）",
     "catalog": "system",
-    "spec": "0 */1 * * *",
+    "spec": "0 1 */1 * *",
     "config": {
       "command": "rsync",
       "local_dir": "/data1/mirrors/centos",
@@ -23,7 +23,7 @@
     "display_name": "Ubuntu",
     "description": "Ubuntu 官方软件仓库（Linux发行版）",
     "catalog": "system",
-    "spec": "10 */1 * * *",
+    "spec": "0 2 */1 * *",
     "config": {
       "command": "rsync",
       "local_dir": "/data1/mirrors/ubuntu",
@@ -42,7 +42,7 @@
     "display_name": "Ubuntu Releases",
     "description": "Ubuntu 发行版安装镜像",
     "catalog": "system",
-    "spec": "20 */1 * * *",
+    "spec": "0 4 */1 * *",
     "config": {
       "command": "rsync",
       "local_dir": "/data1/mirrors/ubuntu-releases",
@@ -61,7 +61,7 @@
     "display_name": "Debian",
     "description": "Debian Linux 的官方软件包仓库",
     "catalog": "system",
-    "spec": "30 */1 * * *",
+    "spec": "0 8 */1 * *",
     "config": {
       "command": "rsync",
       "local_dir": "/data1/mirrors/debian",
@@ -80,7 +80,7 @@
     "display_name": "Deepin",
     "description": "深度操作系统的官方软件仓库",
     "catalog": "system",
-    "spec": "40 */1 * * *",
+    "spec": "0 10 */1 * *",
     "config": {
       "command": "rsync",
       "local_dir": "/data1/mirrors/deepin",
@@ -99,7 +99,7 @@
     "display_name": "EPEL",
     "description": "红帽系 Linux 的附加软件包仓库",
     "catalog": "system",
-    "spec": "50 */1 * * *",
+    "spec": "0 12 */1 * *",
     "config": {
       "command": "rsync",
       "local_dir": "/data1/mirrors/epel",
@@ -118,7 +118,7 @@
     "display_name": "Arch Linux",
     "description": "Arch Linux 的安装镜像和官方软件包仓库",
     "catalog": "system",
-    "spec": "55 */1 * * *",
+    "spec": "0 14 */1 * *",
     "config": {
       "command": "rsync",
       "local_dir": "/data1/mirrors/archlinux",
