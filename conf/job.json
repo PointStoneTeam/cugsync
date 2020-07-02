@@ -12,6 +12,7 @@
       "upstream": "mirrors.tuna.tsinghua.edu.cn",
       "args": [
         "-avz",
+        "--timeout=120",
         "--delete",
         "--ipv6",
         "--safe-links"
@@ -31,6 +32,7 @@
       "upstream": "mirrors.tuna.tsinghua.edu.cn",
       "args": [
         "-avz",
+        "--timeout=120",
         "--delete",
         "--ipv6",
         "--safe-links"
@@ -50,6 +52,7 @@
       "upstream": "mirrors.tuna.tsinghua.edu.cn",
       "args": [
         "-avz",
+        "--timeout=120",
         "--delete",
         "--ipv6",
         "--safe-links"
@@ -69,6 +72,7 @@
       "upstream": "mirrors.tuna.tsinghua.edu.cn",
       "args": [
         "-avz",
+        "--timeout=120",
         "--delete",
         "--ipv6",
         "--safe-links"
@@ -88,6 +92,27 @@
       "upstream": "mirrors.ustc.edu.cn",
       "args": [
         "-avz",
+        "--timeout=120",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name": "deepin-cd",
+    "display_name": "Deepin-cd",
+    "description": "深度操作系统的官方软件仓库",
+    "catalog": "system",
+    "spec": "0 12 */1 * *",
+    "config": {
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/deepin-cd",
+      "remote_dir": "/deepin-cd",
+      "upstream": "mirrors.ustc.edu.cn",
+      "args": [
+        "-avz",
+        "--timeout=120",
         "--delete",
         "--ipv6",
         "--safe-links"
@@ -107,6 +132,7 @@
       "upstream": "mirrors.ustc.edu.cn",
       "args": [
         "-avz",
+        "--timeout=120",
         "--delete",
         "--ipv6",
         "--safe-links"
@@ -126,6 +152,7 @@
       "upstream": "mirrors.tuna.tsinghua.edu.cn",
       "args": [
         "-avz",
+        "--timeout=120",
         "--delete",
         "--ipv6",
         "--safe-links"
@@ -145,6 +172,7 @@
       "upstream": "mirrors.tuna.tsinghua.edu.cn",
       "args": [
         "-avz",
+        "--timeout=120",
         "--delete",
         "--ipv6",
         "--safe-links"
@@ -161,9 +189,10 @@
       "command": "rsync",
       "local_dir": "/data1/mirrors/raspbian",
       "remote_dir": "/raspbian",
-      "upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "upstream": "mirrors.ustc.edu.cn",
       "args": [
         "-avz",
+        "--timeout=120",
         "--delete",
         "--ipv6",
         "--safe-links"
