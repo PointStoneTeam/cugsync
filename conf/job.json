@@ -104,7 +104,7 @@
     "display_name": "Deepin-cd",
     "description": "深度操作系统的官方软件仓库",
     "catalog": "system",
-    "spec": "0 12 */1 * *",
+    "spec": "0 13 */1 * *",
     "config": {
       "command": "rsync",
       "local_dir": "/data1/mirrors/deepin-cd",

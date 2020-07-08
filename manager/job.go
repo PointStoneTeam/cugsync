@@ -3,12 +3,13 @@ package manager
 import (
 	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/PointStoneTeam/cugsync/cron"
 	"github.com/PointStoneTeam/cugsync/pkg/file"
 	"github.com/PointStoneTeam/cugsync/rsync"
 	gocache "github.com/patrickmn/go-cache"
 	log "github.com/sirupsen/logrus"
-	"time"
 )
 
 // task start status enum
@@ -62,14 +63,14 @@ func (this Job) Run() {
 	// start rsync job, record rsync history
 	//log.Infof("start rsync job %s, upstream: %s, remoteDir: %s, localDir: %s, args: %v", this.Name, this.Config.Upstream, this.Config.RemoteDir, this.Config.LocalDir, this.Config.Args)
 	log.Infof("start rsync job %s, spec: %s, config: %v", this.Name, this.Spec, this.Config)
-	for retryCount := 3; retryCount > 0; retryCount-- {
+	for retryCount := 3; retryCount >= 0; retryCount-- {
 		// first time error, after a second retry
-		if err := rsync.ExecCommand(this.Config); err != nil && retryCount > 1 {
+		if err := rsync.ExecCommand(this.Config); err != nil && retryCount > 0 {
 			log.WithFields(log.Fields{
 				"retryCount": retryCount,
 				"err":        err,
 			}).Infof("error, rsync job %s, spec: %s, config: %v", this.Name, this.Spec, this.Config)
-			<-time.After(time.Minute)
+			<-time.After(5 * time.Minute)
 		} else if err != nil {
 			// job maybe failed
 			*this.LatestSyncStatus = FAILED
