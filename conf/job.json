@@ -198,5 +198,43 @@
         "--safe-links"
       ]
     }
+  },
+  {
+    "name": "raspberrypi",
+    "display_name": "Raspberrypi",
+    "description": "一些专为树莓派提供的 Debian 包",
+    "catalog": "system",
+    "spec": "0 18 */1 * *",
+    "config": {
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/raspberrypi",
+      "remote_dir": "/raspberrypi",
+      "upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name": "raspbian",
+    "display_name": "Raspbian",
+    "description": "Raspberry Pi OS（原 Respbian）系统软件源",
+    "catalog": "system",
+    "spec": "0 20 */1 * *",
+    "config": {
+      "command": "rsync",
+      "local_dir": "/data1/mirrors/raspbian",
+      "remote_dir": "/raspbian",
+      "upstream": "mirrors.tuna.tsinghua.edu.cn",
+      "args": [
+        "-avz",
+        "--delete",
+        "--ipv6",
+        "--safe-links"
+      ]
+    }
   }
 ]
