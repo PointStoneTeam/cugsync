@@ -64,7 +64,7 @@ func (j *Job) Run() {
 	//log.Infof("start rsync job %s, upstream: %s, remoteDir: %s, localDir: %s, args: %v", j.Name, j.Config.Upstream, j.Config.RemoteDir, j.Config.LocalDir, j.Config.Args)
 	log.Infof("start rsync job %s, spec: %s, config: %v", j.Name, j.Spec, j.Config)
 	for retryCount := 3; retryCount >= 0; retryCount-- {
-		// first time error, after a second retry
+		// first time error, after a minute retry
 		if err := rsync.ExecCommand(j.Config); err != nil && retryCount > 0 {
 			log.WithFields(log.Fields{
 				"retryCount": retryCount,
