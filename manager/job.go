@@ -3,12 +3,13 @@ package manager
 import (
 	"encoding/json"
 	"fmt"
+	"time"
+
 	"github.com/PointStoneTeam/cugsync/cron"
 	"github.com/PointStoneTeam/cugsync/pkg/file"
 	"github.com/PointStoneTeam/cugsync/rsync"
 	gocache "github.com/patrickmn/go-cache"
 	log "github.com/sirupsen/logrus"
-	"time"
 )
 
 // task start status enum
@@ -31,18 +32,18 @@ func init() {
 
 // Define of Job
 type Job struct {
-	Name             string          `json:"name"`
-	DisplayName      string          `json:"display_name"`
-	Description      string          `json:"description"`
-	Catalog          string          `json:"catalog"`
-	Spec             string          `json:"spec"`   // cron expression
-	Config           *rsync.Config   `json:"config"` // rsync config
-	StartTime        time.Time       `json:"start_time"`
-	EndTime          time.Time       `json:"end_time"`
-	Status           *TaskStart      `json:"status"` // Create | Start | Stop
-	LatestSyncTime   *time.Time      `json:"latest_sync_time"`
-	LatestSyncStatus *SyncTaskStatus `json:"latest_sync_status"`
-	Shut             chan int        `json:"-"` // use chan to stop job
+	Name             string         `json:"name"`
+	DisplayName      string         `json:"display_name"`
+	Description      string         `json:"description"`
+	Catalog          string         `json:"catalog"`
+	Spec             string         `json:"spec"`   // cron expression
+	Config           *rsync.Config  `json:"config"` // rsync config
+	StartTime        time.Time      `json:"start_time"`
+	EndTime          time.Time      `json:"end_time"`
+	Status           TaskStart      `json:"status"` // Create | Start | Stop
+	LatestSyncTime   time.Time      `json:"latest_sync_time"`
+	LatestSyncStatus SyncTaskStatus `json:"latest_sync_status"`
+	Shut             chan int       `json:"-"` // use chan to stop job
 }
 
 type UnCreatedJob struct {
@@ -55,31 +56,35 @@ type UnCreatedJob struct {
 }
 
 // implement Run() interface to start rsync job
-func (this Job) Run() {
-	*this.LatestSyncStatus = STARTED
-	*this.LatestSyncTime = time.Now()
+func (j *Job) Run() {
+	j.LatestSyncStatus = STARTED
+	j.LatestSyncTime = time.Now()
 
 	// start rsync job, record rsync history
-	//log.Infof("start rsync job %s, upstream: %s, remoteDir: %s, localDir: %s, args: %v", this.Name, this.Config.Upstream, this.Config.RemoteDir, this.Config.LocalDir, this.Config.Args)
-	log.Infof("start rsync job %s, spec: %s, config: %v", this.Name, this.Spec, this.Config)
-	for retryCount := 2; retryCount > 0; retryCount-- {
-		// first time error, after a second retry
-		if err := rsync.ExecCommand(this.Config); err != nil && retryCount == 2 {
-			<-time.After(time.Second)
+	//log.Infof("start rsync job %s, upstream: %s, remoteDir: %s, localDir: %s, args: %v", j.Name, j.Config.Upstream, j.Config.RemoteDir, j.Config.LocalDir, j.Config.Args)
+	log.Infof("start rsync job %s, spec: %s, config: %v", j.Name, j.Spec, j.Config)
+	for retryCount := 3; retryCount >= 0; retryCount-- {
+		// first time error, after a minute retry
+		if err := rsync.ExecCommand(j.Config); err != nil && retryCount > 0 {
+			log.WithFields(log.Fields{
+				"retryCount": retryCount,
+				"err":        err,
+			}).Infof("error, rsync job %s, spec: %s, config: %v", j.Name, j.Spec, j.Config)
+			<-time.After(5 * time.Minute)
 		} else if err != nil {
 			// job maybe failed
-			*this.LatestSyncStatus = FAILED
+			j.LatestSyncStatus = FAILED
 			RecordHistory(&History{
-				Name:      this.Name,
-				StartTime: this.StartTime,
+				Name:      j.Name,
+				StartTime: j.StartTime,
 				EndTime:   time.Now(),
 				Info:      err.Error(),
 			})
 		} else {
-			*this.LatestSyncStatus = SUCC
+			j.LatestSyncStatus = SUCC
 			RecordHistory(&History{
-				Name:      this.Name,
-				StartTime: this.StartTime,
+				Name:      j.Name,
+				StartTime: j.StartTime,
 				EndTime:   time.Now(),
 				Info:      "rsync complete",
 			})
@@ -94,21 +99,19 @@ func (this Job) Run() {
 func CreateJob(j *UnCreatedJob) {
 	// init job status
 	job := &Job{
-		Name:        j.Name,
-		DisplayName: j.DisplayName,
-		Description: j.Description,
-		Catalog:     j.Catalog,
-		Spec:        j.Spec,
-		Config:      j.Config,
-		StartTime:   time.Now(),
-		Shut:        make(chan int),
+		Name:             j.Name,
+		DisplayName:      j.DisplayName,
+		Description:      j.Description,
+		Catalog:          j.Catalog,
+		Spec:             j.Spec,
+		Config:           j.Config,
+		StartTime:        time.Now(),
+		Status:           Create,
+		LatestSyncTime:   time.Now(),
+		LatestSyncStatus: UNSTART,
+		Shut:             make(chan int),
 		// 使用指针才可以更新 job 状态
-		Status:           new(TaskStart),
-		LatestSyncStatus: new(SyncTaskStatus),
-		LatestSyncTime:   new(time.Time),
 	}
-	*job.Status = Create
-	*job.LatestSyncStatus = UNSTART
 
 	cache.Set(jobPrefix+job.Name, job, gocache.NoExpiration)
 	ListAddJob(job.Name)
@@ -138,13 +141,13 @@ func StartJob(name string) error {
 	}
 
 	// start job
-	if *j.Status == Start {
+	if j.Status == Start {
 		return fmt.Errorf("job: %s is started.", j.Name)
 	}
 	log.Infof("start job %s", j.Name)
 	go cron.StartJob(j.Spec, j, j.Shut)
-	*j.Status = Start
-	*j.LatestSyncTime = time.Now()
+	j.Status = Start
+	j.LatestSyncTime = time.Now()
 	return nil
 }
 
@@ -161,11 +164,11 @@ func StopJob(name string) error {
 	// shut job
 	if j.Shut == nil {
 		return fmt.Errorf("job: %s shut error", j.Name)
-	} else if *j.Status == Stop {
+	} else if j.Status == Stop {
 		return fmt.Errorf("job: %s is started.", j.Name)
 	}
 	cron.StopJob(j.Shut)
-	*j.Status = Stop
+	j.Status = Stop
 	return nil
 }
 
