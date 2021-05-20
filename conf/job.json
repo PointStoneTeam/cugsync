@@ -1,16 +1,16 @@
 [
   {
-    "name": "centos",
-    "display_name": "CentOS",
-    "description": "基于 Red Hat 的开源企业级操作系统（Linux发行版）",
-    "catalog": "system",
-    "spec": "0 1 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/centos",
-      "remote_dir": "/centos",
-      "upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "args": [
+    "name":"centos",
+    "display_name":"CentOS",
+    "description":"基于 Red Hat 的开源企业级操作系统（Linux发行版）",
+    "catalog":"system",
+    "spec":"0 1 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/centos",
+      "remote_dir":"/centos",
+      "upstream":"mirrors.tuna.tsinghua.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -20,17 +20,17 @@
     }
   },
   {
-    "name": "ubuntu",
-    "display_name": "Ubuntu",
-    "description": "Ubuntu 官方软件仓库（Linux发行版）",
-    "catalog": "system",
-    "spec": "0 2 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/ubuntu",
-      "remote_dir": "/ubuntu",
-      "upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "args": [
+    "name":"ubuntu",
+    "display_name":"Ubuntu",
+    "description":"Ubuntu 官方软件仓库（Linux发行版）",
+    "catalog":"system",
+    "spec":"0 2 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/ubuntu",
+      "remote_dir":"/ubuntu",
+      "upstream":"mirrors.tuna.tsinghua.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -40,17 +40,17 @@
     }
   },
   {
-    "name": "ubuntu-releases",
-    "display_name": "Ubuntu Releases",
-    "description": "Ubuntu 发行版安装镜像",
-    "catalog": "system",
-    "spec": "0 4 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/ubuntu-releases",
-      "remote_dir": "/ubuntu-releases",
-      "upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "args": [
+    "name":"ubuntu-releases",
+    "display_name":"Ubuntu Releases",
+    "description":"Ubuntu 发行版安装镜像",
+    "catalog":"system",
+    "spec":"0 4 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/ubuntu-releases",
+      "remote_dir":"/ubuntu-releases",
+      "upstream":"mirrors.tuna.tsinghua.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -60,17 +60,17 @@
     }
   },
   {
-    "name": "debian",
-    "display_name": "Debian",
-    "description": "Debian Linux 的官方软件包仓库",
-    "catalog": "system",
-    "spec": "0 8 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/debian",
-      "remote_dir": "/debian",
-      "upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "args": [
+    "name":"debian",
+    "display_name":"Debian",
+    "description":"Debian Linux 的官方软件包仓库",
+    "catalog":"system",
+    "spec":"0 8 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/debian",
+      "remote_dir":"/debian",
+      "upstream":"mirrors.tuna.tsinghua.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -80,17 +80,17 @@
     }
   },
   {
-    "name": "deepin",
-    "display_name": "Deepin",
-    "description": "深度操作系统的官方软件仓库",
-    "catalog": "system",
-    "spec": "0 12 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/deepin",
-      "remote_dir": "/deepin",
-      "upstream": "mirrors.ustc.edu.cn",
-      "args": [
+    "name":"deepin",
+    "display_name":"Deepin",
+    "description":"深度操作系统的官方软件仓库",
+    "catalog":"system",
+    "spec":"0 12 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/deepin",
+      "remote_dir":"/deepin",
+      "upstream":"mirrors.ustc.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -100,17 +100,17 @@
     }
   },
   {
-    "name": "deepin-cd",
-    "display_name": "Deepin-cd",
-    "description": "深度操作系统的官方软件仓库",
-    "catalog": "system",
-    "spec": "0 13 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/deepin-cd",
-      "remote_dir": "/deepin-cd",
-      "upstream": "mirrors.ustc.edu.cn",
-      "args": [
+    "name":"deepin-cd",
+    "display_name":"Deepin-cd",
+    "description":"深度操作系统的官方软件仓库",
+    "catalog":"system",
+    "spec":"0 13 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/deepin-cd",
+      "remote_dir":"/deepin-cd",
+      "upstream":"mirrors.ustc.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -120,17 +120,17 @@
     }
   },
   {
-    "name": "epel",
-    "display_name": "EPEL",
-    "description": "红帽系 Linux 的附加软件包仓库",
-    "catalog": "system",
-    "spec": "0 14 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/epel",
-      "remote_dir": "/epel",
-      "upstream": "mirrors.ustc.edu.cn",
-      "args": [
+    "name":"epel",
+    "display_name":"EPEL",
+    "description":"红帽系 Linux 的附加软件包仓库",
+    "catalog":"system",
+    "spec":"0 14 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/epel",
+      "remote_dir":"/epel",
+      "upstream":"mirrors.ustc.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -140,17 +140,17 @@
     }
   },
   {
-    "name": "archlinux",
-    "display_name": "Arch Linux",
-    "description": "Arch Linux 的安装镜像和官方软件包仓库",
-    "catalog": "system",
-    "spec": "0 16 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/archlinux",
-      "remote_dir": "/archlinux",
-      "upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "args": [
+    "name":"archlinux",
+    "display_name":"Arch Linux",
+    "description":"Arch Linux 的安装镜像和官方软件包仓库",
+    "catalog":"system",
+    "spec":"0 16 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/archlinux",
+      "remote_dir":"/archlinux",
+      "upstream":"mirrors.tuna.tsinghua.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -160,17 +160,17 @@
     }
   },
   {
-    "name": "raspberrypi",
-    "display_name": "Raspberrypi",
-    "description": "一些专为树莓派提供的 Debian 包",
-    "catalog": "system",
-    "spec": "0 18 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/raspberrypi",
-      "remote_dir": "/raspberrypi",
-      "upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "args": [
+    "name":"raspberrypi",
+    "display_name":"Raspberrypi",
+    "description":"一些专为树莓派提供的 Debian 包",
+    "catalog":"system",
+    "spec":"0 18 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/raspberrypi",
+      "remote_dir":"/raspberrypi",
+      "upstream":"mirrors.tuna.tsinghua.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -180,17 +180,17 @@
     }
   },
   {
-    "name": "raspbian",
-    "display_name": "Raspbian",
-    "description": "Raspberry Pi OS（原 Respbian）系统软件源",
-    "catalog": "system",
-    "spec": "0 20 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/raspbian",
-      "remote_dir": "/raspbian",
-      "upstream": "mirrors.ustc.edu.cn",
-      "args": [
+    "name":"raspbian",
+    "display_name":"Raspbian",
+    "description":"Raspberry Pi OS（原 Respbian）系统软件源",
+    "catalog":"system",
+    "spec":"0 20 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/raspbian",
+      "remote_dir":"/raspbian",
+      "upstream":"mirrors.ustc.edu.cn",
+      "args":[
         "-avz",
         "--timeout=120",
         "--delete",
@@ -200,17 +200,17 @@
     }
   },
   {
-    "name": "raspberrypi",
-    "display_name": "Raspberrypi",
-    "description": "一些专为树莓派提供的 Debian 包",
-    "catalog": "system",
-    "spec": "0 18 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/raspberrypi",
-      "remote_dir": "/raspberrypi",
-      "upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "args": [
+    "name":"raspberrypi",
+    "display_name":"Raspberrypi",
+    "description":"一些专为树莓派提供的 Debian 包",
+    "catalog":"system",
+    "spec":"0 18 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/raspberrypi",
+      "remote_dir":"/raspberrypi",
+      "upstream":"mirrors.tuna.tsinghua.edu.cn",
+      "args":[
         "-avz",
         "--delete",
         "--ipv6",
@@ -219,20 +219,40 @@
     }
   },
   {
-    "name": "raspbian",
-    "display_name": "Raspbian",
-    "description": "Raspberry Pi OS（原 Respbian）系统软件源",
-    "catalog": "system",
-    "spec": "0 20 */1 * *",
-    "config": {
-      "command": "rsync",
-      "local_dir": "/data1/mirrors/raspbian",
-      "remote_dir": "/raspbian",
-      "upstream": "mirrors.tuna.tsinghua.edu.cn",
-      "args": [
+    "name":"raspbian",
+    "display_name":"Raspbian",
+    "description":"Raspberry Pi OS（原 Respbian）系统软件源",
+    "catalog":"system",
+    "spec":"0 20 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/raspbian",
+      "remote_dir":"/raspbian",
+      "upstream":"mirrors.tuna.tsinghua.edu.cn",
+      "args":[
         "-avz",
         "--delete",
         "--ipv6",
+        "--safe-links"
+      ]
+    }
+  },
+  {
+    "name":"pypi",
+    "display_name":"pypi",
+    "description":"Python 软件包索引源",
+    "catalog":"software",
+    "spec":"0 21 */1 * *",
+    "config":{
+      "command":"rsync",
+      "local_dir":"/data1/mirrors/pypi",
+      "remote_dir":"/pypi",
+      "upstream":"mirrors.tuna.tsinghua.edu.cn",
+      "args":[
+        "-avz",
+        "--timeout=120",
+        "--delete",
+        "--ipv4",
         "--safe-links"
       ]
     }
