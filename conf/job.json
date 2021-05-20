@@ -236,25 +236,5 @@
         "--safe-links"
       ]
     }
-  },
-  {
-    "name":"pypi",
-    "display_name":"pypi",
-    "description":"Python 软件包索引源",
-    "catalog":"software",
-    "spec":"0 21 */1 * *",
-    "config":{
-      "command":"rsync",
-      "local_dir":"/data1/mirrors/pypi",
-      "remote_dir":"/pypi",
-      "upstream":"mirrors.tuna.tsinghua.edu.cn",
-      "args":[
-        "-avz",
-        "--timeout=120",
-        "--delete",
-        "--ipv4",
-        "--safe-links"
-      ]
-    }
   }
 ]
